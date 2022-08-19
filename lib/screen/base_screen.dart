@@ -11,7 +11,7 @@ import 'package:get/get.dart';
 import '../utils/controller.dart';
 class BaseScreen extends StatelessWidget {
  BaseScreen({ Key? key }) : super(key: key);
-  final ItemController _itemController = Get.put(ItemController());
+ final NumberListController _numberListController = Get.put(NumberListController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +44,7 @@ class BaseScreen extends StatelessWidget {
                 height: 45,
                 child: ElevatedButton(
                   onPressed: (){
-                    _itemController.addNumber(
+                    _numberListController.addNumber(
                       NumberModel(
                         name: ControllerData.nameController.text,
                         number: ControllerData.numberController.text,
@@ -66,7 +66,7 @@ class BaseScreen extends StatelessWidget {
                   InkWell(
                     child: Text("View all"),
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ListViewNumber()));
+                      Get.to(ListViewNumber());
                     },
                   )
                 ],
@@ -74,25 +74,29 @@ class BaseScreen extends StatelessWidget {
               Expanded(
                 child: Container(
                   child: Obx(()=> ListView.builder(
-                      itemCount: _itemController.numberList.length,
-                      itemBuilder: (BuildContext  context , index){
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: Colors.primaries[Random().nextInt(17)],
-                          ),
-                          title: Text("${_itemController.numberList[index].name}"),
-                          subtitle: Text("${_itemController.numberList[index].number}"),
-                          trailing: IconButton(
-                            onPressed: (){
-                              ControllerData.nameController.text =  _itemController.numberList[index].name.toString();
-                              ControllerData.numberController.text = _itemController.numberList[index].number;
-                              _itemController.deleteNumber(index);
-                            }, 
-                            icon: Icon(Icons.edit),
-                          ),
-                        );
-                      }
-                    ),
+                        itemCount: _numberListController.numberlist.length,
+                        itemBuilder: (BuildContext  context , index){
+                          return ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: Colors.primaries[Random().nextInt(17)],
+                              child: Center(
+                                // ignore: unnecessary_string_interpolations
+                                child: Text("${_numberListController.numberlist[index].name.toString()[0].toUpperCase()}"),
+                              ),
+                            ),
+                            title: Text("${_numberListController.numberlist[index].name}"),
+                            subtitle: Text("${_numberListController.numberlist[index].number}"),
+                            trailing: IconButton(
+                              onPressed: (){
+                                ControllerData.nameController.text = _numberListController.numberlist[index].name.toString();
+                                ControllerData.numberController.text = _numberListController.numberlist[index].number;
+                               _numberListController.deleteNumber(index);
+                              }, 
+                              icon: Icon(Icons.edit),
+                            ),
+                          );
+                        }
+                      ),
                   ),
                 ),
               ),

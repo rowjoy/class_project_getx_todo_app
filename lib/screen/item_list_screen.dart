@@ -7,7 +7,7 @@ import 'package:flutter_provider/controller/item_controller.dart';
 import 'package:get/get.dart';
 class ListViewNumber extends StatelessWidget {
  ListViewNumber({ Key? key }) : super(key: key);
-  final ItemController _itemController = Get.put(ItemController());
+ final NumberListController _numberListController = Get.put(NumberListController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +16,7 @@ class ListViewNumber extends StatelessWidget {
         title: Text("Phone number"),
         leading: IconButton(
           onPressed: (){
-            Navigator.pop(context);
+            Get.back();
           },
           icon: Icon(Icons.arrow_back_ios),
         ),
@@ -25,17 +25,17 @@ class ListViewNumber extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(15),
           child: Obx(()=>ListView.builder(
-              itemCount: _itemController.numberList.length,
+              itemCount: _numberListController.numberlist.length,
               itemBuilder: (BuildContext context , index){
                 return ListTile(
                   leading: CircleAvatar(
                     backgroundColor: Colors.primaries[Random().nextInt(17)],
                   ),
-                  title: Text("${_itemController.numberList[index].name}"),
-                  subtitle: Text("${_itemController.numberList[index].number}"),
+                  title: Text("${_numberListController.numberlist[index].name}"),
+                  subtitle: Text("${_numberListController.numberlist[index].number}"),
                   trailing: IconButton(
                     onPressed: (){
-                      _itemController.deleteNumber(index);
+                      _numberListController.deleteNumber(index);
                     },
                     icon: Icon(Icons.delete),
                   ),
